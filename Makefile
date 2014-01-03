@@ -1,7 +1,7 @@
 INCLUDE=-framework CoreServices
 OBJECTS+=fswatch.o
 
-all: fswatch 
+all: fswatch
 
 fswatch: $(OBJECTS)
 	gcc $(INCLUDE) -o fswatch $(OBJECTS)

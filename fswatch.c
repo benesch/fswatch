@@ -2,11 +2,11 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <signal.h>
-#include <CoreServices/CoreServices.h> 
+#include <CoreServices/CoreServices.h>
 
 /* fswatch.c
- * 
- * usage: ./fswatch /some/directory[:/some/otherdirectory:...] "some command" 
+ *
+ * usage: ./fswatch /some/directory[:/some/otherdirectory:...] "some command"
  * "some command" is eval'd by bash when /some/directory generates any file events
  *
  * compile me with something like: gcc fswatch.c -framework CoreServices -o fswatch
@@ -24,14 +24,14 @@ char *bash_command[4] = {
 };
 
 //fork a process when there's any change in watch file
-void callback( 
-    ConstFSEventStreamRef streamRef, 
-    void *clientCallBackInfo, 
-    size_t numEvents, 
-    void *eventPaths, 
-    const FSEventStreamEventFlags eventFlags[], 
-    const FSEventStreamEventId eventIds[]) 
-{ 
+void callback(
+    ConstFSEventStreamRef streamRef,
+    void *clientCallBackInfo,
+    size_t numEvents,
+    void *eventPaths,
+    const FSEventStreamEventFlags eventFlags[],
+    const FSEventStreamEventId eventIds[])
+{
   pid_t pid;
   int   status;
 
@@ -80,11 +80,11 @@ int main(int argc, char **argv) {
   // update the global bash command to be run
   bash_command[2] = bash_arg;
 
-  CFStringRef mypath = CFStringCreateWithCString(NULL, argv[1], kCFStringEncodingUTF8); 
+  CFStringRef mypath = CFStringCreateWithCString(NULL, argv[1], kCFStringEncodingUTF8);
   CFArrayRef pathsToWatch = CFStringCreateArrayBySeparatingStrings (NULL, mypath, CFSTR(":"));
 
-  void *callbackInfo = NULL; 
-  FSEventStreamRef stream; 
+  void *callbackInfo = NULL;
+  FSEventStreamRef stream;
   CFAbsoluteTime latency = 1.0;
 
   stream = FSEventStreamCreate(NULL,
@@ -94,9 +94,9 @@ int main(int argc, char **argv) {
     kFSEventStreamEventIdSinceNow,
     latency,
     kFSEventStreamCreateFlagNone
-  ); 
+  );
 
-  FSEventStreamScheduleWithRunLoop(stream, CFRunLoopGetCurrent(), kCFRunLoopDefaultMode); 
+  FSEventStreamScheduleWithRunLoop(stream, CFRunLoopGetCurrent(), kCFRunLoopDefaultMode);
   FSEventStreamStart(stream);
   CFRunLoopRun();
 
