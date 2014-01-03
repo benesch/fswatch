@@ -19,8 +19,8 @@ extern char **environ;
 char *bash_command[4] = {
     "/bin/bash",
     "-c",
-    0, // updated later
-    0
+    NULL, // updated later
+    NULL
 };
 
 //fork a process when there's any change in watch file
@@ -71,7 +71,7 @@ int main(int argc, char **argv) {
     i_chars += strlen(argv[i]);
     bash_arg[i_chars++] = ' ';
   }
-  bash_arg[i_chars - 1] = 0;
+  bash_arg[i_chars - 1] = '\0';
 
   // update the global bash command to be run
   bash_command[2] = bash_arg;
