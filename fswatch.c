@@ -35,8 +35,6 @@ void callback(
   pid_t pid;
   int   status;
 
-  /*printf("Callback called\n"); */
-
   if((pid = fork()) < 0) {
     fprintf(stderr, "error: couldn't fork \n");
     exit(1);
@@ -58,8 +56,6 @@ int main(int argc, char **argv) {
     fprintf(stderr, "usage: %s directory command [argument ...]\n", argv[0]);
     exit(1);
   }
-
-  int n_args = argc - 2;
 
   // find total length of argument to bash -c, including spaces
   int n_bash_arg_chars = 0;
